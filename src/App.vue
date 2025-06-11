@@ -1,20 +1,12 @@
 <script setup>
-import HeaderComponent from "@/components/HeaderComponent.vue";
-import CategoriesComponent from "@/components/CategoriesComponent.vue";
-import BooksComponent from "@/components/BooksComponent.vue";
-import FooterComponent from "@/components/FooterComponent.vue";
+import {useRoute} from "vue-router";
+
+const route = useRoute();
 
 </script>
 
 <template>
-    <HeaderComponent />
-
-    <section class="flex flex-col md:flex-row gap-5">
-        <CategoriesComponent />
-        <BooksComponent />
-    </section>
-
-    <FooterComponent />
+    <Component :is="route.meta.layout" />
 </template>
 
 <style scoped>
