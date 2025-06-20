@@ -1,10 +1,12 @@
 <script setup>
 import FormInput from "@/components/UI/FormInput.vue";
 import FormButton from "@/components/UI/FormButton.vue";
-import {reactive, ref} from "vue";
-import axios from "axios";
+import {useAuthorizationStore} from "@/stores/user/authorization.js";
+import {reactive} from "vue";
+import {useRouter} from "vue-router";
 
-const isloading = ref(false)
+const authStore = useAuthorizationStore();
+const router = useRouter();
 
 const userData = reactive({
     email: '',
@@ -12,17 +14,8 @@ const userData = reactive({
 })
 
 const auth = async () => {
-    isloading.value = true;
-
-    try {
-        const { data } = await axios.post('http://localhost:9999/api/users/auth', userData)
-
-        localStorage.setItem('token', data.token)
-    } catch (err) {
-        console.log(err)
-    } finally {
-        isloading.value = false;
-    }
+    await authStore.auth(userData);
+    await router.push({ name: 'home' })
 }
 </script>
 
@@ -36,7 +29,7 @@ const auth = async () => {
             <FormInput v-model="userData.email" input-type="email" label-name="Email" placeholder="Email kiriting..." />
             <FormInput v-model="userData.password" input-type="password" label-name="Parol" placeholder="Parol kiriting..." />
 
-            <FormButton :isloading :disabled="isloading">Kirish</FormButton>
+            <FormButton :isloading="authStore.isLoading" :disabled="authStore.isLoading">Kirish</FormButton>
         </form>
     </div>
 </template>
