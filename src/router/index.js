@@ -1,6 +1,22 @@
 import {createRouter, createWebHistory} from 'vue-router'
 import {defineAsyncComponent} from "vue";
 
+const ifAuthorized = (to, from, next) => {
+    if (localStorage.getItem('token')) {
+        next();
+    } else {
+        next({name: 'login'});
+    }
+}
+
+const ifNotAuthorized = (to, from, next) => {
+    if (!localStorage.getItem('token')) {
+        next();
+    } else {
+        next({name: 'home'});
+    }
+}
+
 const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
     routes: [
@@ -10,7 +26,8 @@ const router = createRouter({
             component: ()=> import('../views/HomePage.vue'),
             meta: {
                 layout: defineAsyncComponent(() => import('@/layouts/DefaultLayout.vue'))
-            }
+            },
+            beforeEnter: ifAuthorized,
         },
         {
             path: '/book-info',
@@ -21,7 +38,8 @@ const router = createRouter({
             component: () => import('../views/BookInfoPage.vue'),
             meta: {
                 layout: defineAsyncComponent(() => import('@/layouts/DefaultLayout.vue'))
-            }
+            },
+            beforeEnter: ifAuthorized,
         },
         {
             path: '/login',
@@ -29,7 +47,17 @@ const router = createRouter({
             component: ()=> import('../views/LoginPage.vue'),
             meta: {
                 layout: defineAsyncComponent(() => import('@/layouts/BlankLayouts.vue'))
-            }
+            },
+            beforeEnter: ifNotAuthorized,
+        },
+        {
+            path: '/categories',
+            name: 'categories',
+            component: ()=> import('../views/CategoriesListPage.vue'),
+            meta: {
+                layout: defineAsyncComponent(() => import('@/layouts/DefaultLayout.vue'))
+            },
+            beforeEnter: ifAuthorized,
         },
     ],
 })

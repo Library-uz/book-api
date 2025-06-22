@@ -1,9 +1,8 @@
 import {defineStore} from "pinia";
 import {computed, reactive} from "vue";
-import axios from "axios";
 import {authorizedClient} from "@/api/axios.js";
 
-export const useCategoryStore = defineStore('CategoryStore', () => {
+export const useGetCategoryStore = defineStore('CategoryStore', () => {
     const state = reactive({
         categories: {
             all: [],
@@ -15,8 +14,7 @@ export const useCategoryStore = defineStore('CategoryStore', () => {
     const fetchAll = async () => {
         try {
             state.isLoading = true;
-
-            const { data } = await authorizedClient.get('/categories');
+            const { data } = await authorizedClient.get('/categories', );
 
             state.categories.all = data.member;
             state.categories.total = data.totalItems;

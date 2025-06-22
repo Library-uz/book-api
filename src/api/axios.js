@@ -8,3 +8,11 @@ export const authorizedClient = axios.create({
         "Authorization": `Bearer ${localStorage.getItem('token')}`
     }
 })
+
+authorizedClient.interceptors.request.use(config => {
+    if (config.method === 'patch') {
+        config.headers['Content-Type'] = 'application/merge-patch+json';
+    }
+
+    return config;
+})

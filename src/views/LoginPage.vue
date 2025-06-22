@@ -16,6 +16,7 @@ const userData = reactive({
 const auth = async () => {
     await authStore.auth(userData);
     await router.push({ name: 'home' })
+    location.reload();
 }
 </script>
 
@@ -23,8 +24,6 @@ const auth = async () => {
     <div class="min-h-dvh grid place-content-center">
         <form @submit.prevent="auth" class="flex flex-col max-w-100 w-full sm:min-w-100 gap-5 bg-my-gray p-10 rounded-2xl text-white">
             <h2 class="text-center text-2xl font-medium">Kirish</h2>
-
-            <pre>{{userData}}</pre>
 
             <FormInput v-model="userData.email" input-type="email" label-name="Email" placeholder="Email kiriting..." />
             <FormInput v-model="userData.password" input-type="password" label-name="Parol" placeholder="Parol kiriting..." />

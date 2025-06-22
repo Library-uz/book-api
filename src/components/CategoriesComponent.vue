@@ -1,8 +1,8 @@
 <script setup>
 
-import {useCategoryStore} from "@/stores/category/getCategories.js";
+import {useGetCategoryStore} from "@/stores/category/getCategories.js";
 
-const categoryStore = useCategoryStore();
+const categoryStore = useGetCategoryStore();
 
 categoryStore.fetchAll();
 </script>
