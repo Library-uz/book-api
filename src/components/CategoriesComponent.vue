@@ -17,7 +17,14 @@ categoryStore.fetchAll();
                 v-for="category of categoryStore.get.all"
                 :key="category.id"
                 class="py-2 px-5 cursor-pointer hover:bg-my-blue-gray-light hover:text-gray-800"
-            >{{ category.name }}</li>
+            >
+                <RouterLink
+                    :to="{ name: 'by-category', params: { id: category.id } }"
+                    active-class="text-teal-600"
+                >
+                    {{ category.name }}
+                </RouterLink>
+            </li>
         </ul>
     </aside>
 </template>

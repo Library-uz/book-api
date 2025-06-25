@@ -8,6 +8,7 @@ import { useChangeCategoryStore } from "@/stores/category/changeCategory";
 import { useDeleteCategoryStore } from "@/stores/category/deleteCategory";
 import {useAddCategoryStore} from "@/stores/category/addCategory.js";
 import {ref} from "vue";
+import {useI18n} from "vue-i18n";
 
 const getCategoryStore = useGetCategoryStore();
 const changeCategoryStore = useChangeCategoryStore();
@@ -44,13 +45,15 @@ const addCategory = async () => {
     isOpenForAdd.value = false;
     await getCategoryStore.fetchAll();
 }
+
+const { t } = useI18n();
 </script>
 
 <template>
     <div class="grow mr-5">
         <div class="flex justify-between items-center mb-5">
-            <h2 class="text-3xl mb-2 font-medium">Kitoblar</h2>
-            <FormButton @click="isOpenForAdd = true">Qo'shish</FormButton>
+            <h2 class="text-3xl mb-2 font-medium">{{ t('books') }}</h2>
+            <FormButton @click="isOpenForAdd = true">{{ t('add') }}</FormButton>
         </div>
 
         <div class="border p-2 w-full mb-5">
@@ -58,8 +61,8 @@ const addCategory = async () => {
                 <thead class="bg-my-blue-gray">
                 <tr>
                     <th class="text-left pl-5 py-2">Id</th>
-                    <th class="text-left">Nomi</th>
-                    <th class="text-right pr-5">Amallar</th>
+                    <th class="text-left">{{ t('name') }}</th>
+                    <th class="text-right pr-5">{{ t('actions') }}</th>
                 </tr>
                 </thead>
                 <tbody class="bg-my-beige">
@@ -67,8 +70,8 @@ const addCategory = async () => {
                     <td class="text-left pl-5">{{ category.id }}</td>
                     <td class="text-left">{{ category.name }}</td>
                     <td class="text-right pr-5">
-                        <button @click="openEditModal(category.id)" class="px-3 py-1 hover:op-70 transition-all bg-amber-500 text-white rounded-full my-2 mr-4 cursor-pointer">O'zgartirish</button>
-                        <button @click="deleteCategory(category.id)" class="px-3 py-1 hover:op-70 transition-all bg-red-500 text-white rounded-full my-2 mr-4 cursor-pointer">O'chirish</button>
+                        <button @click="openEditModal(category.id)" class="px-3 py-1 hover:op-70 transition-all bg-amber-500 text-white rounded-full my-2 mr-4 cursor-pointer">{{ t('update') }}</button>
+                        <button @click="deleteCategory(category.id)" class="px-3 py-1 hover:op-70 transition-all bg-red-500 text-white rounded-full my-2 mr-4 cursor-pointer">{{ t('delete') }}</button>
                     </td>
                 </tr>
                 </tbody>
@@ -78,17 +81,21 @@ const addCategory = async () => {
         <PaginationComponent />
         <ModalComponent
             @on-accept="editCategory"
-            modal-title="Kategoriyani o'zgartirish"
-            cancel-button-text="Bekor qilish"
-            accept-button-text="O'zgartirish"
+            :label-name-input="t('categoryName')"
+            :placeholder-input="t('phCategoryName')"
+            :modal-title="t('updateCategory')"
+            :cancel-button-text="t('cancel')"
+            :accept-button-text="t('update')"
             v-model:is-open="isOpenForEdit"
             v-model="categoryText"
         />
         <ModalComponent
             @on-accept="addCategory"
-            modal-title="Kategoriyani qo'shish"
-            cancel-button-text="Bekor qilish"
-            accept-button-text="Qo'shish"
+            :label-name-input="t('categoryName')"
+            :placeholder-input="t('phCategoryName')"
+            :modal-title="t('addCategory')"
+            :cancel-button-text="t('cancel')"
+            :accept-button-text="t('add')"
             v-model:is-open="isOpenForAdd"
             v-model="categoryText"
         />

@@ -17,7 +17,15 @@ defineProps({
     modalTitle: {
         type: String,
         required: true
-    }
+    },
+    labelNameInput: {
+        type: String,
+        default: 'Name'
+    },
+    placeholderInput: {
+        type: String,
+        default: 'type here...'
+    },
 })
 
 defineEmits(["on-accept"]);
@@ -29,7 +37,7 @@ defineEmits(["on-accept"]);
         <div class="p-10 rounded bg-white flex flex-col gap-5 sm:w-150">
             <h3 class="text-2xl font-bold">{{ modalTitle }}</h3>
 
-            <FormInput label-name="Kategoriya nomi" v-model="categoryText" placeholder="Kategoriya nomini kiriting..."/>
+            <FormInput :label-name="labelNameInput" v-model="categoryText" :placeholder="placeholderInput"/>
 
             <div class="flex gap-5 justify-end">
                 <FormButton @click="$emit('on-accept')">{{ acceptButtonText }}</FormButton>

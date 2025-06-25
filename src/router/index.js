@@ -30,7 +30,7 @@ const router = createRouter({
             beforeEnter: ifAuthorized,
         },
         {
-            path: '/book-info',
+            path: '/book-info/:bookId',
             name: 'book-info',
             // route level code-splitting
             // this generates a separate chunk (About.[hash].js) for this route
@@ -54,6 +54,24 @@ const router = createRouter({
             path: '/categories',
             name: 'categories',
             component: ()=> import('../views/CategoriesListPage.vue'),
+            meta: {
+                layout: defineAsyncComponent(() => import('@/layouts/DefaultLayout.vue'))
+            },
+            beforeEnter: ifAuthorized,
+        },
+        {
+            path: '/add-book',
+            name: 'add-book',
+            component: ()=> import('../views/CreateBookPage.vue'),
+            meta: {
+                layout: defineAsyncComponent(() => import('@/layouts/DefaultLayout.vue'))
+            },
+            beforeEnter: ifAuthorized,
+        },
+        {
+            path: '/by-category/:id',
+            name: 'by-category',
+            component: ()=> import('../views/HomePage.vue'),
             meta: {
                 layout: defineAsyncComponent(() => import('@/layouts/DefaultLayout.vue'))
             },
