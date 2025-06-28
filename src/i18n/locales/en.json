@@ -21,5 +21,13 @@
   "LogOut": "LogOut",
   "read": "Read",
   "copyright": "Copyright",
-  "select": "Select"
+  "select": "Select",
+  "email": "Email",
+  "statistics": "Statistics",
+  "phone": "phone",
+  "before": "before",
+  "after": "after",
+  "total": "Total",
+  "phEmail": "search by email",
+  "phPhone": "search by phone"
 }

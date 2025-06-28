@@ -14,6 +14,8 @@ const logout = () => {
 
 const { t, locale } = useI18n();
 
+const isAdmin = JSON.parse(atob(localStorage.getItem('token').split('.')[1])).roles.includes('ROLE_ADMIN');
+
 </script>
 
 <template>
@@ -29,6 +31,9 @@ const { t, locale } = useI18n();
                 </li>
                 <li class="border-b-1 border-transparent cursor-pointer hover:border-white transition-all">
                     <RouterLink :to="{ name: 'categories' }" active-class="text-teal-600">{{ t('category') }}</RouterLink>
+                </li>
+                <li v-if="isAdmin" class="border-b-1 border-transparent cursor-pointer hover:border-white transition-all">
+                    <RouterLink :to="{ name: 'statistics' }" active-class="text-teal-600">{{ t('statistics') }}</RouterLink>
                 </li>
             </ul>
         </nav>

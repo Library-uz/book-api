@@ -42,7 +42,7 @@ const { t } = useI18n();
             </button>
         </div>
 
-        <PaginationComponent />
+        <PaginationComponent :pagination-count="6" />
 
     </div>
 </template>

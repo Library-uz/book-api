@@ -21,5 +21,13 @@
   "LogOut": "Chiqish",
   "read": "O‘qish",
   "copyright": "Mualliflik huquqi",
-  "select": "Tanlash"
+  "select": "Tanlash",
+  "statistics": "Statistika",
+  "email": "Elektron pochta",
+  "phone": "Telefon",
+  "before": "...dan oldin",
+  "after": "...dan keyin",
+  "total": "Jami",
+  "phEmail": "email orqali qidiring",
+  "phPhone": "telefon orqali qidiring"
 }

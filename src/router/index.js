@@ -1,6 +1,15 @@
 import {createRouter, createWebHistory} from 'vue-router'
 import {defineAsyncComponent} from "vue";
 
+const ifAdmin = (to, from, next) => {
+    const isAdmin = JSON.parse(atob(localStorage.getItem('token').split('.')[1])).roles.includes('ROLE_ADMIN');
+    if (isAdmin) {
+        next();
+    } else {
+        next({name: 'home'});
+    }
+}
+
 const ifAuthorized = (to, from, next) => {
     if (localStorage.getItem('token')) {
         next();
@@ -76,6 +85,15 @@ const router = createRouter({
                 layout: defineAsyncComponent(() => import('@/layouts/DefaultLayout.vue'))
             },
             beforeEnter: ifAuthorized,
+        },
+        {
+            path: '/statistics',
+            name: 'statistics',
+            component: ()=> import('../views/AdminPage.vue'),
+            meta: {
+                layout: defineAsyncComponent(() => import('@/layouts/MainBlankLayouts.vue'))
+            },
+            beforeEnter: [ifAuthorized, ifAdmin]
         },
     ],
 })

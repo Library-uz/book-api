@@ -27,11 +27,13 @@ const openEditModal = id => {
 }
 
 const editCategory = async () => {
-    await changeCategoryStore.change(currentId.value, {name: categoryText.value});
-    categoryText.value = '';
-    currentId.value = null;
-    isOpenForEdit.value = false;
-    await getCategoryStore.fetchAll();
+    if (categoryText.value) {
+        await changeCategoryStore.change(currentId.value, {name: categoryText.value});
+        categoryText.value = '';
+        currentId.value = null;
+        isOpenForEdit.value = false;
+        await getCategoryStore.fetchAll();
+    }
 }
 
 const deleteCategory = async id => {
@@ -78,7 +80,7 @@ const { t } = useI18n();
             </table>
         </div>
 
-        <PaginationComponent />
+        <PaginationComponent :pagination-count="6" />
         <ModalComponent
             @on-accept="editCategory"
             :label-name-input="t('categoryName')"
