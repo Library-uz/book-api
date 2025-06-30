@@ -10,7 +10,7 @@ export const useAuthorizationStore = defineStore('authorization', () => {
         try {
             isLoading.value = true;
             const response = await axios.post('http://localhost:9999/api/users/auth', authData);
-            isAuthorized.value = true
+            isAuthorized.value = true;
 
             localStorage.setItem('token', response.data.token);
         }catch (err) {

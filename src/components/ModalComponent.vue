@@ -46,7 +46,3 @@ defineEmits(["on-accept"]);
         </div>
     </div>
 </template>
-
-<style scoped>
-
-</style>

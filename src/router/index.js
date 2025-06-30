@@ -60,6 +60,24 @@ const router = createRouter({
             beforeEnter: ifNotAuthorized,
         },
         {
+            path: '/signup',
+            name: 'signup',
+            component: ()=> import('../views/SignUpPage.vue'),
+            meta: {
+                layout: defineAsyncComponent(() => import('@/layouts/BlankLayouts.vue'))
+            },
+            beforeEnter: ifNotAuthorized,
+        },
+        {
+            path: '/forgot-password',
+            name: 'forgot-password',
+            component: ()=> import('../views/ForgotPasswordPage.vue'),
+            meta: {
+                layout: defineAsyncComponent(() => import('@/layouts/BlankLayouts.vue'))
+            },
+            beforeEnter: ifNotAuthorized,
+        },
+        {
             path: '/categories',
             name: 'categories',
             component: ()=> import('../views/CategoriesListPage.vue'),

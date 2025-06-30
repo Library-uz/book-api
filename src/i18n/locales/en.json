@@ -2,11 +2,11 @@
   "books": "Books",
   "category": "Category",
   "categoryName": "Name category",
-  "update": "Update",
+  "update": "update",
   "updateCategory": "Update category",
   "addCategory": "Add category",
   "cancel": "Cansel",
-  "delete": "Delete",
+  "delete": "delete",
   "addBook": "Add Book",
   "bookName": "Book name",
   "description": "Description",
@@ -29,5 +29,11 @@
   "after": "after",
   "total": "Total",
   "phEmail": "search by email",
-  "phPhone": "search by phone"
+  "phPhone": "search by phone",
+  "gender": "gender",
+  "age": "age",
+  "search": "Search",
+  "clear": "Clear",
+  "registrationTime": "registration time",
+  "username": "Username"
 }
