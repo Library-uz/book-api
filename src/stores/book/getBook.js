@@ -24,7 +24,7 @@ export const useGetBookStore = defineStore('getBook', () => {
 
     return {
         fetchBook,
-        get: computed(() => state.book),
+        getBook: computed(() => state.book),
         isLoading: computed(() => state.isLoading)
     }
 })

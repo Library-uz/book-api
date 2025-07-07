@@ -6,7 +6,8 @@ export const useGetBooksStore = defineStore('getBooks', () => {
     const state = reactive({
         books: {
             all: [],
-            total: 0
+            totalItem: 0,
+            pageCount: 0,
         },
         isLoading: false
     })
@@ -18,6 +19,7 @@ export const useGetBooksStore = defineStore('getBooks', () => {
 
             state.books.all = data.member;
             state.books.total = data.totalItems;
+            state.books.pageCount = Math.ceil(data.totalItems / 8);
         } catch (err) {
             console.error(err);
             throw err;

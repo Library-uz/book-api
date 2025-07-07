@@ -105,6 +105,15 @@ const router = createRouter({
             beforeEnter: ifAuthorized,
         },
         {
+            path: '/by-like',
+            name: 'by-like',
+            component: ()=> import('../views/HomePage.vue'),
+            meta: {
+                layout: defineAsyncComponent(() => import('@/layouts/DefaultLayout.vue'))
+            },
+            beforeEnter: ifAuthorized,
+        },
+        {
             path: '/statistics',
             name: 'statistics',
             component: ()=> import('../views/AdminPage.vue'),
