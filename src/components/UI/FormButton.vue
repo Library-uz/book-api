@@ -17,6 +17,7 @@ defineProps({
         :disabled
         class="grid px-8 py-2 rounded-lg transition-all place-content-center"
         :class="{'bg-gray-100 cursor-not-allowed text-gray-400': disabled, 'bg-my-blue-gray hover:bg-white hover:text-my-blue-gray cursor-pointer': !disabled}"
+        type="submit"
     >
         <slot v-if="!isLoading" />
         <svg v-else class="text-black text-2xl animate-spin" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">

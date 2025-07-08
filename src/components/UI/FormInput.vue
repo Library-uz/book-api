@@ -11,6 +11,10 @@ defineProps({
     placeholder: {
         type: String,
         default: 'Type here...'
+    },
+    errorMessage: {
+        type: Boolean,
+        default: false
     }
 })
 
@@ -19,7 +23,11 @@ const model = defineModel();
 
 <template>
     <label class="flex flex-col">
-        <span class="italic">{{ labelName }}</span>
+        <div>
+            <span class="italic">{{ labelName }}</span>
+            <span v-if="errorMessage" class="text-red-500 pl-2">*</span>
+        </div>
+
         <input
             class="border px-2.5 py-2 rounded bg-white placeholder:text-my-gray text-black"
             :type="inputType"

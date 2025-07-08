@@ -105,7 +105,7 @@ const router = createRouter({
             beforeEnter: ifAuthorized,
         },
         {
-            path: '/by-like',
+            path: '/by-like/:id',
             name: 'by-like',
             component: ()=> import('../views/HomePage.vue'),
             meta: {
@@ -118,7 +118,7 @@ const router = createRouter({
             name: 'statistics',
             component: ()=> import('../views/AdminPage.vue'),
             meta: {
-                layout: defineAsyncComponent(() => import('@/layouts/MainBlankLayouts.vue'))
+                layout: defineAsyncComponent(() => import('@/layouts/MainBlankLayout.vue'))
             },
             beforeEnter: [ifAuthorized, ifAdmin]
         },

@@ -8,6 +8,3 @@ const route = useRoute();
 <template>
     <Component :is="route.meta.layout" />
 </template>
-
-<style scoped>
-</style>

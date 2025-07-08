@@ -12,7 +12,7 @@ categoryStore.fetchAll();
         <ul>
             <li class="py-2 px-5 cursor-pointer hover:bg-my-blue-gray-light hover:text-gray-800">
                 <RouterLink
-                    :to="{ name: 'by-like' }"
+                    :to="{ name: 'by-like', params: { id: 0 } }"
                     active-class="text-teal-600"
                 >
                     Favorite books

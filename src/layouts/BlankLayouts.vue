@@ -1,6 +1,4 @@
 <script setup>
-
-import CategoriesComponent from "@/components/CategoriesComponent.vue";
 </script>
 
 <template>
@@ -8,7 +6,3 @@ import CategoriesComponent from "@/components/CategoriesComponent.vue";
         <RouterView/>
     </section>
 </template>
-
-<style scoped>
-
-</style>

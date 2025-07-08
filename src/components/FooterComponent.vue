@@ -10,7 +10,3 @@ const { t } = useI18n();
         <p>2025</p>
     </footer>
 </template>
-
-<style scoped>
-
-</style>

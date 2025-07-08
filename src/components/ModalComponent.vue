@@ -26,6 +26,10 @@ defineProps({
         type: String,
         default: 'type here...'
     },
+    error: {
+        type: Boolean,
+        default: false
+    },
 })
 
 defineEmits(["on-accept"]);
@@ -37,11 +41,11 @@ defineEmits(["on-accept"]);
         <div class="p-10 rounded bg-white flex flex-col gap-5 sm:w-150">
             <h3 class="text-2xl font-bold">{{ modalTitle }}</h3>
 
-            <FormInput :label-name="labelNameInput" v-model="categoryText" :placeholder="placeholderInput"/>
+            <FormInput :error-message="error" :label-name="labelNameInput" v-model="categoryText" :placeholder="placeholderInput"/>
 
             <div class="flex gap-5 justify-end">
                 <FormButton @click="$emit('on-accept')">{{ acceptButtonText }}</FormButton>
-                <FormButton @click="isOpen = false">{{ cancelButtonText }}</FormButton>
+                <FormButton @click="isOpen = false; categoryText = ''">{{ cancelButtonText }}</FormButton>
             </div>
         </div>
     </div>

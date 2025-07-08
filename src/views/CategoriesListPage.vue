@@ -9,15 +9,22 @@ import { useDeleteCategoryStore } from "@/stores/category/deleteCategory";
 import {useAddCategoryStore} from "@/stores/category/addCategory.js";
 import {ref} from "vue";
 import {useI18n} from "vue-i18n";
+import {object, string} from "yup";
+import {useField, useForm} from "vee-validate";
 
 const getCategoryStore = useGetCategoryStore();
 const changeCategoryStore = useChangeCategoryStore();
 const deleteCategoryStore = useDeleteCategoryStore();
 const addCategoryStore = useAddCategoryStore();
-const categoryText = ref('');
 const isOpenForEdit = ref(false);
 const isOpenForAdd = ref(false);
 const currentId = ref(null);
+const schema = object({
+    category: string().required()
+})
+
+const { errors, handleSubmit } = useForm({ validationSchema: schema });
+const { value: category } = useField('category');
 
 getCategoryStore.fetchAll();
 
@@ -26,27 +33,25 @@ const openEditModal = id => {
     currentId.value = id;
 }
 
-const editCategory = async () => {
-    if (categoryText.value) {
-        await changeCategoryStore.change(currentId.value, {name: categoryText.value});
-        categoryText.value = '';
-        currentId.value = null;
-        isOpenForEdit.value = false;
-        await getCategoryStore.fetchAll();
-    }
-}
+const editCategory = handleSubmit( async values => {
+    await changeCategoryStore.change(currentId.value, { name: values.category });
+    category.value = '';
+    currentId.value = null;
+    isOpenForEdit.value = false;
+    await getCategoryStore.fetchAll();
+});
 
 const deleteCategory = async id => {
     await deleteCategoryStore.deleteCategory(id);
     await getCategoryStore.fetchAll();
 }
 
-const addCategory = async () => {
-    await addCategoryStore.add({name: categoryText.value});
-    categoryText.value = '';
+const addCategory = handleSubmit( async values => {
+    await addCategoryStore.add({ name: values.category });
+    category.value = '';
     isOpenForAdd.value = false;
     await getCategoryStore.fetchAll();
-}
+});
 
 const { t } = useI18n();
 </script>
@@ -83,23 +88,25 @@ const { t } = useI18n();
         <PaginationComponent :pagination-count="6" />
         <ModalComponent
             @on-accept="editCategory"
+            :error="!!errors.category"
             :label-name-input="t('categoryName')"
             :placeholder-input="t('phCategoryName')"
             :modal-title="t('updateCategory')"
             :cancel-button-text="t('cancel')"
             :accept-button-text="t('update')"
             v-model:is-open="isOpenForEdit"
-            v-model="categoryText"
+            v-model="category"
         />
         <ModalComponent
             @on-accept="addCategory"
+            :error="!!errors.category"
             :label-name-input="t('categoryName')"
             :placeholder-input="t('phCategoryName')"
             :modal-title="t('addCategory')"
             :cancel-button-text="t('cancel')"
             :accept-button-text="t('add')"
             v-model:is-open="isOpenForAdd"
-            v-model="categoryText"
+            v-model="category"
         />
     </div>
 </template>

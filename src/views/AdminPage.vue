@@ -8,18 +8,27 @@ import {useI18n} from "vue-i18n";
 import {useDeleteUserStore} from "@/stores/user/deleteUser.js";
 import UserEditModalComponent from "@/components/UserEditModalComponent.vue";
 import {useChangeUserStore} from "@/stores/user/changeUser.js";
+import {number, object, string} from "yup";
+import {useField, useForm} from "vee-validate";
 
 const usersStore = useGetUsersStore();
 const deleteUserStore = useDeleteUserStore();
 const changeUserStore = useChangeUserStore();
 usersStore.fetchUsers('?page=1');
 
-const userData = reactive({
-    username: "",
-    password: "",
-    age: "",
-    phone: ""
+const schema = object({
+    username: string().required(),
+    password: string().required().min(6),
+    age: number().integer().required().moreThan(18).lessThan(50),
+    phone: string().required().matches(/^\+?\d+$/).min(9).max(13)
 })
+
+const { errors, handleSubmit } = useForm({ validationSchema: schema });
+
+const { value: username } = useField('username');
+const { value: password } = useField('password');
+const { value: age } = useField('age');
+const { value: phone } = useField('phone');
 
 const queryFilters = reactive({
     query: '?page=1',
@@ -95,15 +104,16 @@ const deleteUser = async (id) => {
     await usersStore.fetchUsers(queryFilters.query.replace(/page=\d+/, `page=${currentPage.value}`));
 }
 
-const changeUser = async () => {
-    await changeUserStore.change(currentId.value, {...userData, age: parseInt(userData.age) });
-    await usersStore.fetchUsers('?page=1');
-    userData.username = "";
-    userData.password = "";
-    userData.age = "";
-    userData.phone = "";
+const changeUser = handleSubmit( async values => {
+    await changeUserStore.change(currentId.value, { ...values, age: parseInt(values.age) });
+    console.log(queryFilters.query);
+    await usersStore.fetchUsers(queryFilters.query.replace(/page=\d+/, `page=${currentPage.value}`));
+    username.value = "";
+    password.value = "";
+    age.value = null;
+    phone.value = "";
     isOpenForEdit.value = false;
-}
+});
 
 const { t } = useI18n();
 </script>
@@ -123,17 +133,17 @@ const { t } = useI18n();
         <div class="border p-2 w-full my-5">
             <table class="table-auto w-full">
                 <thead class="bg-my-blue-gray">
-                <tr>
-                    <th class="text-left pl-5 py-2">#</th>
-                    <th class="text-left">username</th>
-                    <th class="text-left">{{ t('email') }}</th>
-                    <th class="text-left">{{ t('age') }}</th>
-                    <th class="text-left">{{ t('phone') }}</th>
-                    <th class="text-left">{{ t('gender') }}</th>
-                    <th class="text-left">{{ t('registrationTime') }}</th>
-                    <th class="text-right">{{ t('update') }}</th>
-                    <th class="text-right pr-5">{{ t('delete') }}</th>
-                </tr>
+                    <tr>
+                        <th class="text-left pl-5 py-2">#</th>
+                        <th class="text-left">username</th>
+                        <th class="text-left">{{ t('email') }}</th>
+                        <th class="text-left">{{ t('age') }}</th>
+                        <th class="text-left">{{ t('phone') }}</th>
+                        <th class="text-left">{{ t('gender') }}</th>
+                        <th class="text-left">{{ t('registrationTime') }}</th>
+                        <th class="text-right">{{ t('update') }}</th>
+                        <th class="text-right pr-5">{{ t('delete') }}</th>
+                    </tr>
                 </thead>
                 <tbody class="bg-my-beige text-black">
                     <tr
@@ -179,15 +189,15 @@ const { t } = useI18n();
 
         <UserEditModalComponent
             @on-accept="changeUser"
-            v-model:username="userData.username"
-            v-model:password="userData.password"
-            v-model:age="userData.age"
-            v-model:phone="userData.phone"
+            v-model:username="username"
+            v-model:password="password"
+            v-model:age="age"
+            v-model:phone="phone"
             v-model:is-open="isOpenForEdit"
+            :error-username="!!errors.username"
+            :error-password="!!errors.password"
+            :error-age="!!errors.age"
+            :error-phone="!!errors.phone"
         />
     </div>
 </template>
-
-<style scoped>
-
-</style>

@@ -46,21 +46,11 @@ const isAdmin = JSON.parse(atob(localStorage.getItem('token').split('.')[1])).ro
         </div>
 
         <div>
-            <div v-if="!authorizationStore.isAuthorized">
-                <button class="hidden lg:inline px-8 py-2 bg-my-blue-gray rounded-lg hover:bg-white hover:text-my-blue-gray cursor-pointer transition-all mr-5">Sign Up</button>
-                <RouterLink active-class="bg-white text-my-blue-gray" :to="{name: 'login'}" class="w-full block  lg:inline px-8 py-2 bg-my-blue-gray rounded-lg hover:bg-white hover:text-my-blue-gray cursor-pointer transition-all ">
-                    Sign In
-                </RouterLink>
-            </div>
-            <div v-else>
-                <button @click="logout" class="hidden lg:inline px-8 py-2 bg-my-blue-gray rounded-lg hover:bg-white hover:text-my-blue-gray cursor-pointer transition-all mr-5">
+            <div>
+                <button @click="logout" class=" lg:inline px-8 py-2 bg-my-blue-gray rounded-lg hover:bg-white hover:text-my-blue-gray cursor-pointer transition-all mr-5">
                     {{ t('LogOut') }}
                 </button>
             </div>
         </div>
     </header>
 </template>
-
-<style scoped>
-
-</style>

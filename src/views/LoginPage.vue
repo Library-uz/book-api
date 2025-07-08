@@ -2,22 +2,29 @@
 import FormInput from "@/components/UI/FormInput.vue";
 import FormButton from "@/components/UI/FormButton.vue";
 import {useAuthorizationStore} from "@/stores/user/authorization.js";
-import {reactive} from "vue";
 import {useRouter} from "vue-router";
+import {object, string} from "yup";
+import {useField, useForm} from "vee-validate";
 
 const authStore = useAuthorizationStore();
 const router = useRouter();
-
-const userData = reactive({
-    username: '',
-    password: ''
+const schema = object({
+    username: string().required('Username kiriting!'),
+    password: string().required('Parol kiriting!').min(6)
 })
 
-const auth = async () => {
-    await authStore.auth(userData);
+const { errors, handleSubmit } = useForm({ validationSchema: schema });
+const { value: username } = useField('username');
+const { value: password } = useField('password');
+
+const auth = handleSubmit(async (values) => {
+    await authStore.auth({
+        username: values.username,
+        password: values.password,
+    });
     await router.push({ name: 'home' })
     location.reload();
-}
+});
 
 </script>
 
@@ -26,8 +33,8 @@ const auth = async () => {
         <form @submit.prevent="auth" class="flex flex-col max-w-100 w-full sm:min-w-100 gap-5 bg-my-gray p-10 rounded-2xl text-white">
             <h2 class="text-center text-2xl font-medium">Kirish</h2>
 
-            <FormInput v-model="userData.username" label-name="Username" placeholder="username kiriting..." />
-            <FormInput v-model="userData.password" input-type="password" label-name="Parol" placeholder="parol kiriting..." />
+            <FormInput :error-message="!!errors.username" v-model="username" label-name="Username" placeholder="username kiriting..." />
+            <FormInput :error-message="!!errors.password" v-model="password" input-type="password" label-name="Parol" placeholder="parol kiriting..." />
             <div class="flex justify-between">
                 <label for="remember-me">
                     <input type="checkbox" value="remember-me" id="remember-me" class="mr-1" />

@@ -52,7 +52,3 @@ const addComment = async () => {
         </div>
     </div>
 </template>
-
-<style scoped>
-
-</style>
