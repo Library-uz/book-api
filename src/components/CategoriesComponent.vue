@@ -8,7 +8,7 @@ categoryStore.fetchAll();
 </script>
 
 <template>
-    <aside class="py-5 bg-my-gray  md:w-72 text-white flex-none h-fit md:sticky md:top-[100px]">
+    <aside class="py-5 bg-my-gray  md:w-72 text-white flex-none h-fit md:sticky md:top-25">
         <ul>
             <li class="py-2 px-5 cursor-pointer hover:bg-my-blue-gray-light hover:text-gray-800">
                 <RouterLink

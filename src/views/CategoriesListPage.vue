@@ -59,7 +59,7 @@ const { t } = useI18n();
 <template>
     <div class="grow mr-5">
         <div class="flex justify-between items-center mb-5">
-            <h2 class="text-3xl mb-2 font-medium">{{ t('books') }}</h2>
+            <h2 class="text-3xl mb-2 font-medium">{{ t('category') }}</h2>
             <FormButton @click="isOpenForAdd = true">{{ t('add') }}</FormButton>
         </div>
 
@@ -77,7 +77,7 @@ const { t } = useI18n();
                     <td class="text-left pl-5">{{ category.id }}</td>
                     <td class="text-left">{{ category.name }}</td>
                     <td class="text-right pr-5">
-                        <button @click="openEditModal(category.id)" class="px-3 py-1 hover:op-70 transition-all bg-amber-500 text-white rounded-full my-2 mr-4 cursor-pointer">{{ t('update') }}</button>
+                        <button @click="openEditModal(category.id)" class="px-3 py-1 hover:op-70 transition-all bg-amber-500 text-white rounded-full my-2 mr-4 cursor-pointer">{{ t('change') }}</button>
                         <button @click="deleteCategory(category.id)" class="px-3 py-1 hover:op-70 transition-all bg-red-500 text-white rounded-full my-2 mr-4 cursor-pointer">{{ t('delete') }}</button>
                     </td>
                 </tr>

@@ -6,13 +6,15 @@ import FooterComponent from "@/components/FooterComponent.vue";
 </script>
 
 <template>
-    <HeaderComponent />
+    <section class="flex flex-col min-h-dvh">
+        <HeaderComponent />
 
-    <section class="flex flex-col md:flex-row gap-5">
-        <CategoriesComponent />
+        <div class="flex-1 flex flex-col md:flex-row gap-5">
+            <CategoriesComponent />
 
-        <RouterView/>
+            <RouterView/>
+        </div>
+
+        <FooterComponent />
     </section>
-
-    <FooterComponent />
 </template>

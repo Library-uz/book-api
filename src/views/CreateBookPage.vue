@@ -8,14 +8,6 @@ import {useI18n} from "vue-i18n";
 import {object, string} from "yup";
 import {useField, useForm} from "vee-validate";
 
-// const book = reactive({
-//     name: '',
-//     description: '',
-//     text: '',
-//     category: '',
-//     image: ''
-// })
-
 const getCategoryStore = useGetCategoryStore();
 const addFileStore = useAddFileStore();
 const createBookStore = useCreateBookStore();
@@ -24,11 +16,10 @@ const schema = object({
     description: string().required('Description kiriting!'),
     text: string().required('Text kiriting!'),
     category: string().required('Category kiriting!'),
-    image: string().required('Image kiriting!')
+    image: string().required('Rasm tanlang!')
 })
 
 const {errors, handleSubmit} = useForm({validationSchema: schema});
-
 const {value: name} = useField('name');
 const {value: description} = useField('description');
 const {value: text} = useField('text');
@@ -38,11 +29,11 @@ const {value: image} = useField('image');
 getCategoryStore.fetchAll();
 
 const setFile = event => {
-    book.image = event.target.files[0]
+    image.value = event.target.files[0]
 }
 
 const addBook = handleSubmit(async values => {
-    const res = await addFileStore.addFile(image);
+    const res = await addFileStore.addFile(image.value);
     await createBookStore.createBook({...values, image: res["@id"]});
     name.value = '';
     description.value = '';
@@ -50,7 +41,6 @@ const addBook = handleSubmit(async values => {
     category.value = '';
     image.value = '';
 });
-
 const {t} = useI18n();
 </script>
 
@@ -86,8 +76,6 @@ const {t} = useI18n();
             </div>
 
             <FormInput :error-message="errors.image" :label-name="t('bookImage')" input-type="file" @change="setFile"/>
-
-
             <div class="flex gap-5 justify-end">
                 <FormButton :isloading="createBookStore.isLoading" @click="addBook">{{ t('add') }}</FormButton>
             </div>

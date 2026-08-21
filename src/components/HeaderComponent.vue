@@ -1,10 +1,8 @@
 <script setup>
 
-import {useAuthorizationStore} from "@/stores/user/authorization.js";
 import {useRouter} from "vue-router";
 import {useI18n} from "vue-i18n";
 
-const authorizationStore = useAuthorizationStore();
 const router = useRouter();
 
 const logout = () => {
@@ -20,19 +18,19 @@ const isAdmin = JSON.parse(atob(localStorage.getItem('token').split('.')[1])).ro
 
 <template>
     <header class="flex justify-between items-center bg-my-gray px-10 z-10 h-20 sticky top-0 text-white mb-5 shadow-md">
-        <a href="#" class="text-3xl font-semibold">Lo<span class="text-my-blue-gray">go</span></a>
-        <nav class="hidden lg:block mx-auto">
+        <a href="#" class="text-3xl font-semibold">Lib<span class="text-my-blue-gray">rary</span></a>
+        <nav class="hidden md:block mx-auto">
             <ul class="flex gap-10">
-                <li class="border-b-1 border-transparent cursor-pointer hover:border-white transition-all">
+                <li class="border-b border-transparent cursor-pointer hover:border-white transition-all">
                     <RouterLink to="/" active-class="text-teal-600">{{ t('books') }}</RouterLink>
                 </li>
-                <li class="border-b-1 border-transparent cursor-pointer hover:border-white transition-all">
+                <li class="border-b border-transparent cursor-pointer hover:border-white transition-all">
                     <RouterLink :to="{ name: 'add-book' }" active-class="text-teal-600">{{ t('addBook') }}</RouterLink>
                 </li>
-                <li class="border-b-1 border-transparent cursor-pointer hover:border-white transition-all">
+                <li class="border-b border-transparent cursor-pointer hover:border-white transition-all">
                     <RouterLink :to="{ name: 'categories' }" active-class="text-teal-600">{{ t('category') }}</RouterLink>
                 </li>
-                <li v-if="isAdmin" class="border-b-1 border-transparent cursor-pointer hover:border-white transition-all">
+                <li v-if="isAdmin" class="border-b border-transparent cursor-pointer hover:border-white transition-all">
                     <RouterLink :to="{ name: 'statistics' }" active-class="text-teal-600">{{ t('statistics') }}</RouterLink>
                 </li>
             </ul>

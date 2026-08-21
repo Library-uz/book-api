@@ -4,9 +4,9 @@ import {authorizedClient} from "@/api/axios.js";
 export const useClickLikeStore = defineStore('clickLike', () => {
 
 
-    const fetchLike = async (id, username) => {
+    const fetchLike = async (data) => {
         try {
-            return await authorizedClient.patch(`/books/change_likes?id=${id}&username=` + username, {});
+            return await authorizedClient.post('/likes/add', data);
         } catch (err) {
             console.error(err);
             throw err;
