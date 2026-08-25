@@ -1,15 +1,15 @@
 <script setup>
 import PaginationComponent from "@/components/PaginationComponent.vue";
 import {useGetBooksStore} from "@/stores/book/getBooks.js";
-import {useRoute} from "vue-router";
 import {onMounted, ref, watch} from "vue";
 import {useI18n} from "vue-i18n";
+import {useGetCategoryStore} from "@/stores/category/getCategories.js";
 
 const getBooksStore = useGetBooksStore();
+const getCategoriesStore = useGetCategoryStore();
 
 const baseUrl = import.meta.env.VITE_API_URL;
 
-const route = useRoute();
 const currentPage = ref(1);
 const query = ref('?page=1');
 
@@ -18,12 +18,12 @@ onMounted(() => {
 });
 
 watch(
-    () => route.params.id,
+    () => getCategoriesStore.selectedCategory,
     (val) => {
-        if (!val) {
+        if (val === null) {
             query.value = '?page=1';
             getBooksStore.fetchAll(query.value);
-        } else if (Number(val) === 0) {
+        } else if (val === 0) {
             query.value = '/by-like?page=1';
             getBooksStore.fetchAll(query.value);
         } else {

@@ -6,6 +6,7 @@
   "updateCategory": "Update category",
   "addCategory": "Add category",
   "cancel": "Cansel",
+  "editing": "Editing",
   "delete": "delete",
   "addBook": "Add Book",
   "bookName": "Book name",
@@ -35,5 +36,7 @@
   "search": "Search",
   "clear": "Clear",
   "registrationTime": "registration time",
-  "username": "Username"
+  "username": "Username",
+  "allBooks": "All books",
+  "favoriteBooks": "Favorite books"
 }

@@ -10,6 +10,8 @@ import UserEditModalComponent from "@/components/UserEditModalComponent.vue";
 import {useChangeUserStore} from "@/stores/user/changeUser.js";
 import {number, object, string} from "yup";
 import {useField, useForm} from "vee-validate";
+import AlertNotification from "@/components/UI/AlertNotification.vue";
+import ToastNotification from "@/components/UI/ToastNotification.vue";
 
 const usersStore = useGetUsersStore();
 const deleteUserStore = useDeleteUserStore();
@@ -20,7 +22,7 @@ const schema = object({
     username: string().required(),
     password: string().required().min(6),
     age: number().integer().required().moreThan(18).lessThan(50),
-    phone: string().required().matches(/^\+?\d+$/).min(9).max(13)
+    phone: string().matches(/^\+?\d+$/).min(9).max(13)
 })
 
 const { errors, handleSubmit } = useForm({ validationSchema: schema });
@@ -40,7 +42,9 @@ const queryFilters = reactive({
 
 const currentPage = ref(1);
 const isOpenForEdit = ref(false);
-const currentId = ref(null);
+const currentUserId = ref(null);
+const isOpenedModalDelete = ref(false);
+const toastNotification = ref(false);
 
 const search = () => {
     queryFilters.query = `?page=1`;
@@ -96,23 +100,29 @@ const nextLastPage = (incrementOrDecrement) => {
 
 const openUserModal = id => {
     isOpenForEdit.value = true;
-    currentId.value = id;
+    currentUserId.value = id;
 }
 
-const deleteUser = async (id) => {
-    await deleteUserStore.deleteUser(id);
+const deleteUser = async () => {
+    await deleteUserStore.deleteUser(currentUserId.value);
     await usersStore.fetchUsers(queryFilters.query.replace(/page=\d+/, `page=${currentPage.value}`));
+
+    isOpenedModalDelete.value = false;
+    currentUserId.value = 0;
 }
 
 const changeUser = handleSubmit( async values => {
-    await changeUserStore.change(currentId.value, { ...values, age: parseInt(values.age) });
-    console.log(queryFilters.query);
+    await changeUserStore.change(currentUserId.value, { ...values, age: parseInt(values.age) });
     await usersStore.fetchUsers(queryFilters.query.replace(/page=\d+/, `page=${currentPage.value}`));
     username.value = "";
     password.value = "";
     age.value = null;
     phone.value = "";
     isOpenForEdit.value = false;
+    currentUserId.value = 0;
+    toastNotification.value = changeUserStore.isChanged;
+
+    setTimeout(() => toastNotification.value = false, 3000);
 });
 
 const { t } = useI18n();
@@ -120,18 +130,18 @@ const { t } = useI18n();
 
 <template>
     <div class="container mx-auto flex flex-col bg-my-gray p-5">
-        <form @submit.prevent="search" class="flex items-end gap-5 text-white">
+        <form @submit.prevent="search" class="flex flex-wrap items-end gap-5 text-white">
             <FormInput v-model="queryFilters.email" :label-name="t('email')" :placeholder="t('phEmail')"/>
             <FormInput v-model="queryFilters.phone" :label-name="t('phone')" :placeholder="t('phPhone')"/>
             <FormInput v-model="queryFilters.before" :label-name="t('before')" input-type="date"/>
             <FormInput v-model="queryFilters.after" :label-name="t('after')" input-type="date"/>
 
-            <FormButton class="ml-auto">{{ t('search') }}</FormButton>
+            <FormButton class="xl:ml-auto">{{ t('search') }}</FormButton>
             <FormButton @click="clear" class="bg-red-500">{{ t('clear') }}</FormButton>
         </form>
 
-        <div class="border p-2 w-full my-5">
-            <table class="table-auto w-full">
+        <div class="border p-2 w-full my-5 overflow-x-auto">
+            <table class="table-auto w-full min-w-220">
                 <thead class="bg-my-blue-gray">
                     <tr>
                         <th class="text-left pl-5 py-2">#</th>
@@ -141,7 +151,7 @@ const { t } = useI18n();
                         <th class="text-left">{{ t('phone') }}</th>
                         <th class="text-left">{{ t('gender') }}</th>
                         <th class="text-left">{{ t('registrationTime') }}</th>
-                        <th class="text-right">{{ t('update') }}</th>
+                        <th class="text-right">{{ t('editing') }}</th>
                         <th class="text-right pr-5">{{ t('delete') }}</th>
                     </tr>
                 </thead>
@@ -167,7 +177,7 @@ const { t } = useI18n();
                         </td>
                         <td class="pr-5">
                             <div class="flex justify-end">
-                                <button @click="deleteUser(user.id)">
+                                <button @click="isOpenedModalDelete = true; currentUserId = user.id">
                                     <svg height="24px" viewBox="0 0 48 48" width="24px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg"><g id="Expanded"><g><g><path d="M41,48H7V7h34V48z M9,46h30V9H9V46z"/></g><g><path d="M35,9H13V1h22V9z M15,7h18V3H15V7z"/></g><g><path d="M16,41c-0.553,0-1-0.447-1-1V15c0-0.553,0.447-1,1-1s1,0.447,1,1v25C17,40.553,16.553,41,16,41z"/></g><g><path d="M24,41c-0.553,0-1-0.447-1-1V15c0-0.553,0.447-1,1-1s1,0.447,1,1v25C25,40.553,24.553,41,24,41z"/></g><g><path d="M32,41c-0.553,0-1-0.447-1-1V15c0-0.553,0.447-1,1-1s1,0.447,1,1v25C33,40.553,32.553,41,32,41z"/></g><g><rect height="2" width="48" y="7"/></g></g></g></svg>
                                 </button>
                             </div>
@@ -200,4 +210,7 @@ const { t } = useI18n();
             :error-phone="!!errors.phone"
         />
     </div>
+
+    <ToastNotification v-if="toastNotification" message="Ma'lumotlar muvaffaqqiyatli o'zgartirildi"/>
+    <AlertNotification @deleteFunction="deleteUser()" v-model="isOpenedModalDelete" message="Rostan ham o’chirilsinmi ?"/>
 </template>

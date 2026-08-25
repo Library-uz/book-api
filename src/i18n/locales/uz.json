@@ -6,6 +6,7 @@
   "updateCategory": "Kategoriyani yangilash",
   "addCategory": "Kategoriya qo‘shish",
   "cancel": "Bekor qilish",
+  "editing": "Taxrirlash",
   "delete": "O‘chirish",
   "addBook": "Kitob qo‘shish",
   "bookName": "Kitob nomi",
@@ -29,5 +30,13 @@
   "after": "...dan keyin",
   "total": "Jami",
   "phEmail": "email orqali qidiring",
-  "phPhone": "telefon orqali qidiring"
+  "phPhone": "telefon orqali qidiring",
+  "gender": "Jins",
+  "age": "Yosh",
+  "search": "Qidirish",
+  "clear": "Tozalash",
+  "registrationTime": "registratsiya vaqti",
+  "username": "Username",
+  "allBooks": "Hamma kitoblar",
+  "favoriteBooks": "Tanlangan kitoblar"
 }

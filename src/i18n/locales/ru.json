@@ -6,6 +6,7 @@
   "updateCategory": "Обновить категорию",
   "addCategory": "Добавить категорию",
   "cancel": "Отмена",
+  "editing": "Редактировать",
   "delete": "Удалить",
   "addBook": "Добавить книгу",
   "bookName": "Название книги",
@@ -29,6 +30,14 @@
   "after": "после...",
   "total": "Всего",
   "phEmail": "поиск по email",
-  "phPhone": "поиск по телефону"
+  "phPhone": "поиск по телефону",
+  "gender": "пол",
+  "age": "возраст",
+  "search": "Поиск",
+  "clear": "Очистить",
+  "registrationTime": "дата регистрации",
+  "username": "Логин",
+  "allBooks": "Все книги",
+  "favoriteBooks": "Избранные книги"
 }
 

@@ -8,7 +8,8 @@ export const useGetCategoryStore = defineStore('CategoryStore', () => {
             all: [],
             total: 0
         },
-        isLoading: false
+        isLoading: false,
+        selectedCategory: null
     })
 
     const fetchAll = async () => {
@@ -26,8 +27,14 @@ export const useGetCategoryStore = defineStore('CategoryStore', () => {
         }
     }
 
+    const setCategory = (category) => {
+        state.selectedCategory = category;
+    }
+
     return {
         fetchAll,
+        setCategory,
+        selectedCategory: computed(() => state.selectedCategory),
         get: computed(() => state.categories),
         isLoading: computed(() => state.isLoading)
     }
